@@ -1,0 +1,53 @@
+Revenue generator
+Usecase 4 - Revenue Per Category
+/*
+        ord_df.createOrReplaceTempView("orders");
+        ord_items_df.createOrReplaceTempView("order_items");
+        category_df.createOrReplaceTempView("categories");
+        prod_df.createOrReplaceTempView("products");
+        Dataset<Row> resultRevenueCategory1 = utilObj.spark.sql("select c.*,round(sum(order_item_subtotal),2) AS category_revenue from orders o " +
+                "JOIN order_items oi ON o.order_id=oi.order_item_order_id " +
+                "JOIN products p ON oi.order_item_product_id=p.product_id " +
+                "JOIN categories c ON c.category_id=p.product_category_id " +
+                "WHERE order_date like '2014-01%' AND order_status in ('COMPLETE','CLOSED') " +
+                "GROUP BY category_id,category_department_id,category_name " +
+                "ORDER BY category_id");
+        resultRevenueCategory1.show();
+        resultRevenueCategory1.printSchema();
+*/
+
+Usecase 3 - Revenue Per Customer
+ /*ord_df.createOrReplaceTempView("orders");
+        cust_df.createOrReplaceTempView("customers");
+        ord_items_df.createOrReplaceTempView("order_items");
+        Dataset<Row> ord = utilObj.spark.sql("SELECT * FROM orders");
+        Dataset<Row> resultRevenueCust = utilObj.spark.sql("SELECT CAST(customer_id AS INT) AS customer_id,c.customer_fname, c.customer_lname , " +
+                "round(sum(order_item_subtotal),2) AS customer_revenue " +
+                "FROM orders o LEFT OUTER JOIN customers c ON o.order_customer_id=customer_id " +
+                "JOIN order_items oi ON o.order_id=oi.order_item_order_id " +
+                "WHERE order_date like '2014-01%' AND order_status in ('COMPLETE','CLOSED')" +
+                "GROUP BY c.customer_id,c.customer_fname, c.customer_lname " +
+                "ORDER BY customer_revenue DESC, customer_id");
+        resultRevenueCust.show();
+        resultRevenueCust.filter("customer_revenue is null").show();*/
+
+ Customer Orders
+Usecase 1 - Customer order count
+ /*ord_df.createOrReplaceTempView("orders");
+         cust_df.createOrReplaceTempView("customers");
+         Dataset<Row> resultOrdersCount = utilObj.spark.sql("SELECT CAST(customer_id AS INT) AS customer_id,c.customer_fname,c.customer_lname," +
+                 "count(o.order_id) AS customer_order_count " +
+                 "FROM orders o JOIN customers c ON o.order_customer_id=customer_id " +
+                 "WHERE order_date like '2014-01%' " +
+                 "GROUP BY customer_id,c.customer_fname,c.customer_lname ORDER BY customer_order_count DESC,customer_id");
+         resultOrdersCount.show();
+         resultOrdersCount.count();*/
+
+Usecase 2 - Dormant Customers
+      /* ord_df.createOrReplaceTempView("orders");
+         cust_df.createOrReplaceTempView("customers");
+         Dataset<Row> resultDormant = utilObj.spark.sql("SELECT CAST(customer_id AS INT) AS customer_id,customer_fname,customer_lname,customer_email,customer_password,customer_street,customer_city,customer_state,customer_zipcode" +
+                 " FROM customers where customer_id NOT IN " +
+                 "(SELECT CAST(order_customer_id AS INT) AS order_customer_id from orders where order_date like '2014-01%')");
+         resultDormant.show();
+         resultDormant.printSchema();*/
