@@ -1,4 +1,10 @@
 # manage-retail-data
+
+1. Create a Java Maven project in IntelliJ
+2. Implement the below mentioned usecases using Spark-Java
+3. Add Logging support and implement Junit and integration test cases
+4. Execute and save the results as csv file on local or in Hive table
+
 Usecase 1 - Customer order count
 Get order count per customer for the month of 2014 January.
 * Tables - orders and customers
